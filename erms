@@ -1,0 +1,2300 @@
+<?php
+session_start();
+session_unset();
+session_destroy();
+header('location:loginerms.php');
+
+?>
+<?php
+session_start();
+error_reporting(0);
+include('includes/dbconnection.php');
+//error_reporting(0);
+if (strlen($_SESSION['uid']==0)) {
+  header('location:logout.php');
+  } else{
+
+
+if(isset($_POST['submit']))
+  {
+    $eid=$_SESSION['uid'];
+      $coursepg=$_POST['coursepg'];
+    $schoolclgpg=$_POST['schoolclgpg'];
+    $yoppg=$_POST['yoppg'];
+    $pipg=$_POST['pipg'];
+    $coursegra=$_POST['coursegra'];
+    $schoolclggra=$_POST['schoolclggra'];
+    $yopgra=$_POST['yopgra'];
+    $pigra=$_POST['pigra'];
+    $coursessc=$_POST['coursessc'];
+    $schoolclgssc=$_POST['schoolclgssc'];
+    $yopssc=$_POST['yopssc'];
+    $pissc=$_POST['pissc'];
+    $coursehsc=$_POST['coursehsc'];
+    $schoolclghsc=$_POST['schoolclghsc'];
+    $yophsc=$_POST['yophsc'];
+    $pihsc=$_POST['pihsc'];
+    
+     $query=mysqli_query($con, "insert into empeducation( EmpID,CoursePG, SchoolCollegePG, YearPassingPG,  PercentagePG, CourseGra,  SchoolCollegeGra, YearPassingGra, PercentageGra, CourseSSC, SchoolCollegeSSC, YearPassingSSC, PercentageSSC, CourseHSC, SchoolCollegeHSC, YearPassingHSC, PercentageHSC) value('$eid','$coursepg', '$schoolclgpg', '$yoppg', '$pipg', '$coursegra', '$schoolclggra', '$yopgra', '$pigra', '$coursessc', '$schoolclgssc', '$yopssc', '$pissc', '$coursehsc', '$schoolclghsc', '$yophsc', '$pihsc' )");
+    if ($query) {
+    $msg="Your Education data has been submitted succeesfully.";
+  }
+  else
+    {
+      $msg="Something Went Wrong. Please try again.";
+    }
+  }
+  ?>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>My Education</title>
+
+  <!-- Custom fonts for this template-->
+  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+<link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+  <!-- Custom styles for this template-->
+  <link href="css/sb-admin-2.min.css" rel="stylesheet">
+
+</head>
+
+<body id="page-top">
+
+  <!-- Page Wrapper -->
+  <div id="wrapper">
+
+    <!-- Sidebar -->
+  <?php include_once('includes/sidebar.php')?>
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+      <!-- Main Content -->
+      <div id="content">
+
+        <!-- Topbar -->
+         <?php include_once('includes/header.php')?>
+        <!-- End of Topbar -->
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+          <!-- Page Heading -->
+          <h1 class="h3 mb-4 text-gray-800">My Education</h1>
+
+<p style="font-size:16px; color:red" align="center"> <?php if($msg){
+    echo $msg;
+  }  ?> </p>
+
+
+
+<?php 
+$empid=$_SESSION['uid'];
+$query=mysqli_query($con,"select * from empeducation where EmpID=$empid");
+$row=mysqli_fetch_array($query);
+if($row>0)
+{
+
+?>
+<p style="font-size:16px; color:red" align="center">Your Education details already added. Now you can only edit the record. </p>
+
+<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+
+<tr>
+  <th>Post Graduate Course Name</th>
+  <td><?php echo $row['CoursePG'];?></td>
+</tr>
+<tr>
+  <th>Post Graduate School/College</th>
+  <td><?php echo $row['SchoolCollegePG'];?></td>
+</tr>
+<tr>
+  <th>Year of Passing in PG</th>
+  <td><?php echo $row['YearPassingPG'];?></td>
+</tr>
+<tr>
+  <th>Percent in PG</th>
+  <td><?php echo $row['PercentagePG'];?></td>
+</tr>
+<tr>
+  <th>Graduation Course Name</th>
+  <td><?php echo $row['CourseGra'];?></td>
+</tr>
+<tr>
+  <th>Graduate School/College</th>
+  <td><?php echo $row['SchoolCollegeGra'];?></td>
+</tr>
+<tr>
+  <th>Year of Passing in Graduation</th>
+  <td><?php echo $row['YearPassingGra'];?></td>
+</tr>
+<tr>
+  <th>Percent in Graduation</th>
+  <td><?php echo $row['PercentageGra'];?></td>
+</tr>
+<th>SSC Course Name</th>
+  <td><?php echo $row['CourseSSC'];?></td>
+</tr>
+<tr>
+  <th>SSC School/College</th>
+  <td><?php echo $row['SchoolCollegeSSC'];?></td>
+</tr>
+<tr>
+  <th>Year of Passing in SSC</th>
+  <td><?php echo $row['YearPassingSSC'];?></td>
+</tr>
+<tr>
+  <th>Percent in SSC</th>
+  <td><?php echo $row['PercentageSSC'];?></td>
+</tr>
+<th>HSC Course Name</th>
+  <td><?php echo $row['CourseHSC'];?></td>
+</tr>
+<tr>
+  <th>HSC School/College</th>
+  <td><?php echo $row['SchoolCollegeHSC'];?></td>
+</tr>
+<tr>
+  <th>Year of Passing in HSC</th>
+  <td><?php echo $row['YearPassingHSC'];?></td>
+</tr>
+<tr>
+  <th>Percent in HSC</th>
+  <td><?php echo $row['PercentageHSC'];?></td>
+</tr>
+
+
+</table>
+
+
+
+<?php } else {?>
+
+<form class="user" method="post" action="">
+ 
+               <div class="row">
+                <div class="col-4 mb-3">Course Post Graduation</div>
+                   <div class="col-8 mb-3">   <input type="text" class="form-control form-control-user" id="coursepg" name="coursepg" aria-describedby="emailHelp" value=""></div>
+                    </div>  
+                    <div class="row">
+                      <div class="col-4 mb-3">School/College Post Graduation </div>
+                     <div class="col-8 mb-3">  <input type="text" class="form-control form-control-user" id="schoolclgpg" name="schoolclgpg" aria-describedby="emailHelp" value=""></div>  
+                     </div>
+
+
+
+                    <div class="row">
+                    <div class="col-4 mb-3">Year of Passing Post Graduation </div>
+                    <div class="col-8 mb-3">
+                      <input type="text" class="form-control form-control-user" id="yoppg" name="yoppg" aria-describedby="emailHelp" value=""></div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-4 mb-3">Percentage in PG</div>
+                     <div class="col-8 mb-3">
+                      <input type="text" class="form-control form-control-user" id="pipg" name="pipg" aria-describedby="emailHelp" value="">
+                    </div></div>
+                    <div class="row">
+                <div class="col-4 mb-3">Course Graduation</div>
+                   <div class="col-8 mb-3">   <input type="text" class="form-control form-control-user" id="coursegra" name="coursegra" aria-describedby="emailHelp" value="" required="true"></div>
+                    </div>  
+                    <div class="row">
+                      <div class="col-4 mb-3">School/College Graduation </div>
+                     <div class="col-8 mb-3">  <input type="text" class="form-control form-control-user" id="schoolclggra" name="schoolclggra" aria-describedby="emailHelp" value="" required="true"></div>  
+                     </div>
+
+
+
+                    <div class="row">
+                    <div class="col-4 mb-3">Year of Passing Graduation </div>
+                    <div class="col-8 mb-3">
+                      <input type="text" class="form-control form-control-user" id="yopgra" name="yopgra" aria-describedby="emailHelp" value="" required="true"></div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-4 mb-3">Percentage in Graduation</div>
+                     <div class="col-8 mb-3">
+                      <input type="text" class="form-control form-control-user" id="pigra" name="pigra" aria-describedby="emailHelp" value="" required="true">
+                    </div></div>
+                    <div class="row">
+                <div class="col-4 mb-3">Course SSC</div>
+                   <div class="col-8 mb-3">   <input type="text" class="form-control form-control-user" id="coursessc" name="coursessc" aria-describedby="emailHelp" value="" required="true"></div>
+                    </div>  
+                    <div class="row">
+                      <div class="col-4 mb-3">School/College SSC </div>
+                     <div class="col-8 mb-3">  <input type="text" class="form-control form-control-user" id="schoolclgssc" name="schoolclgssc" aria-describedby="emailHelp" value="" required="true"></div>  
+                     </div>
+
+
+
+                    <div class="row">
+                    <div class="col-4 mb-3">Year of Passing SSC </div>
+                    <div class="col-8 mb-3">
+                      <input type="text" class="form-control form-control-user" id="yopssc" name="yopssc" aria-describedby="emailHelp" value="" required="true"></div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-4 mb-3">Percentage in SSC</div>
+                     <div class="col-8 mb-3">
+                      <input type="text" class="form-control form-control-user" id="pissc" name="pissc" aria-describedby="emailHelp" value="" required="true">
+                    </div></div>
+                    <div class="row">
+                <div class="col-4 mb-3">Course HSC</div>
+                   <div class="col-8 mb-3">   <input type="text" class="form-control form-control-user" id="coursehsc" name="coursehsc" aria-describedby="emailHelp" value="" required="true"></div>
+                    </div>  
+                    <div class="row">
+                      <div class="col-4 mb-3">School/College HSC </div>
+                     <div class="col-8 mb-3">  <input type="text" class="form-control form-control-user" id="schoolclghsc" name="schoolclghsc" aria-describedby="emailHelp" value="" required="true"></div>  
+                     </div>
+
+
+
+                    <div class="row">
+                    <div class="col-4 mb-3">Year of Passing HSC </div>
+                    <div class="col-8 mb-3">
+                      <input type="text" class="form-control form-control-user" id="yophsc" name="yophsc" aria-describedby="emailHelp" value="" required="true"></div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-4 mb-3">Percentage in HSC</div>
+                     <div class="col-8 mb-3">
+                      <input type="text" class="form-control form-control-user" id="pihsc" name="pihsc" aria-describedby="emailHelp" value="" required="true">
+                    </div></div>
+                   
+                    <div class="row" style="margin-top:4%">
+                      <div class="col-4"></div>
+                      <div class="col-4">
+                      <input type="submit" name="submit"  value="submit" class="btn btn-primary btn-user btn-block">
+                    </div>
+                    </div>
+                  
+                  </form>
+<?php } ?>
+
+
+
+
+        </div>
+        <!-- /.container-fluid -->
+
+      </div>
+      <!-- End of Main Content -->
+
+      <!-- Footer -->
+   <?php include_once('includes/footer.php');?>
+      <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+  </div>
+  <!-- End of Page Wrapper -->
+
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+  
+
+  <!-- Bootstrap core JavaScript-->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+  <!-- Page level plugins -->
+  <script src="vendor/datatables/jquery.dataTables.min.js"></script>
+  <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+  <!-- Page level custom scripts -->
+  <script src="js/demo/datatables-demo.js"></script>
+  <!-- Custom scripts for all pages-->
+  <script src="js/sb-admin-2.min.js"></script>
+  <script type="text/javascript">
+    $(".jDate").datepicker({
+    format: 'yyyy-mm-dd',
+    autoclose: true
+}).datepicker("update", "10/10/2016"); 
+  </script>
+
+</body>
+
+</html>
+<?php }  ?>
+
+<?php
+session_start();
+error_reporting(0);
+include('includes/dbconnection.php');
+//error_reporting(0);
+if (strlen($_SESSION['uid']==0)) {
+  header('location:logout.php');
+  } else{
+
+
+if(isset($_POST['submit']))
+  {
+    $eid=$_SESSION['uid'];
+      $emp1name=$_POST['emp1name'];
+    $emp1des=$_POST['emp1des'];
+    $emp1ctc=$_POST['emp1ctc'];
+    $emp1wd=$_POST['emp1workduration'];
+    $emp2name=$_POST['emp2name'];
+    $emp2des=$_POST['emp2des'];
+    $emp2ctc=$_POST['emp2ctc'];
+    $emp2wd=$_POST['emp2workduration'];
+    $emp3name=$_POST['emp3name'];
+    $emp3des=$_POST['emp3des'];
+    $emp3ctc=$_POST['emp3ctc'];
+    $emp3wd=$_POST['emp3workduration'];
+    
+     $query=mysqli_query($con, "insert into empexpireince ( EmpID,Employer1Name, Employer1Designation, Employer1CTC,  Employer1WorkDuration, Employer2Name,  Employer2Designation, Employer2CTC, Employer2WorkDuration, Employer3Name, Employer3Designation, Employer3CTC, Employer3WorkDuration) value('$eid','$emp1name', '$emp1des', '$emp1ctc', '$emp1wd', '$emp2name', '$emp2des', '$emp2ctc', '$emp2wd', '$emp3name', '$emp3des', '$emp3ctc', '$emp3wd' )");
+    if ($query) {
+    $msg="Your Expirence data has been submitted succeesfully.";
+  }
+  else
+    {
+      $msg="Something Went Wrong. Please try again.";
+    }
+  }
+  ?>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>My Experience</title>
+
+  <!-- Custom fonts for this template-->
+  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+  <!-- Custom styles for this template-->
+  <link href="css/sb-admin-2.min.css" rel="stylesheet">
+
+</head>
+
+<body id="page-top">
+
+  <!-- Page Wrapper -->
+  <div id="wrapper">
+
+    <!-- Sidebar -->
+  <?php include_once('includes/sidebar.php')?>
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+      <!-- Main Content -->
+      <div id="content">
+
+        <!-- Topbar -->
+         <?php include_once('includes/header.php')?>
+        <!-- End of Topbar -->
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+          <!-- Page Heading -->
+          <h1 class="h3 mb-4 text-gray-800">My Experience</h1>
+
+<p style="font-size:16px; color:red" align="center"> <?php if($msg){
+    echo $msg;
+  }  ?> </p>
+
+  <?php 
+$empid=$_SESSION['uid'];
+$query=mysqli_query($con,"select * from empexpireince where EmpID=$empid");
+$row=mysqli_fetch_array($query);
+if($row>0)
+{
+
+?>
+<p style="font-size:16px; color:red" align="center">Your Experience details already added. Now you can only edit the record. </p>
+<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+
+<tr>
+  <th>First Employer Name</th>
+  <td><?php echo $row['Employer1Name'];?></td>
+</tr>
+<tr>
+  <th>First Employer Designation</th>
+  <td><?php echo $row['Employer1Designation'];?></td>
+</tr>
+<tr>
+  <th>First Employer CTC</th>
+  <td><?php echo $row['Employer1CTC'];?></td>
+</tr>
+<tr>
+  <th>First Employer Work Duration</th>
+  <td><?php echo $row['Employer1WorkDuration'];?></td>
+</tr>
+<tr>
+  <th>Second Employer Name</th>
+  <td><?php echo $row['Employer2Name'];?></td>
+</tr>
+<tr>
+  <th>Second Employer Designation</th>
+  <td><?php echo $row['Employer2Designation'];?></td>
+</tr>
+<tr>
+  <th>Second Employer CTC</th>
+  <td><?php echo $row['Employer2CTC'];?></td>
+</tr>
+<tr>
+  <th>Second Employer Work Duration</th>
+  <td><?php echo $row['Employer2WorkDuration'];?></td>
+</tr>
+<tr>
+  <th>Third Employer Name</th>
+  <td><?php echo $row['Employer3Name'];?></td>
+</tr>
+<tr>
+  <th>Third Employer Designation</th>
+  <td><?php echo $row['Employer3Designation'];?></td>
+</tr>
+<tr>
+  <th>Third Employer CTC</th>
+  <td><?php echo $row['Employer3CTC'];?></td>
+</tr>
+<tr>
+  <th>Third Employer Work Duration</th>
+  <td><?php echo $row['Employer3WorkDuration'];?></td>
+</tr>
+
+</table>
+
+
+
+
+<?php } else {?>
+
+<form class="user" method="post" action="">
+ 
+               <div class="row">
+                <div class="col-4 mb-3">Employer1 Name</div>
+                   <div class="col-8 mb-3">   <input type="text" class="form-control form-control-user" id="emp1name" name="emp1name" aria-describedby="emailHelp" value=""></div>
+                    </div>  
+                    <div class="row">
+                      <div class="col-4 mb-3">Employer1 Designation </div>
+                     <div class="col-8 mb-3">  <input type="text" class="form-control form-control-user" id="emp1des" name="emp1des" aria-describedby="emailHelp" value=""></div>  
+                     </div>
+
+
+
+                    <div class="row">
+                    <div class="col-4 mb-3">Employer1 CTC </div>
+                    <div class="col-8 mb-3">
+                      <input type="text" class="form-control form-control-user" id="emp1ctc" name="emp1ctc" aria-describedby="emailHelp" value=""></div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-4 mb-3">Employer1 WorkDuration</div>
+                     <div class="col-8 mb-3">
+                      <input type="text" class="form-control form-control-user" id="emp1workduration" name="emp1workduration" aria-describedby="emailHelp" value="">
+                    </div></div>
+                    <div class="row">
+                <div class="col-4 mb-3">Employer2 Name</div>
+                   <div class="col-8 mb-3">   <input type="text" class="form-control form-control-user" id="emp2name" name="emp2name" aria-describedby="emailHelp" value=""></div>
+                    </div>  
+                    <div class="row">
+                      <div class="col-4 mb-3">Employer2 Designation </div>
+                     <div class="col-8 mb-3">  <input type="text" class="form-control form-control-user" id="emp2des" name="emp2des" aria-describedby="emailHelp" value=""></div>  
+                     </div>
+
+
+
+                    <div class="row">
+                    <div class="col-4 mb-3">Employer2 CTC </div>
+                    <div class="col-8 mb-3">
+                      <input type="text" class="form-control form-control-user" id="emp2ctc" name="emp2ctc" aria-describedby="emailHelp" value=""></div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-4 mb-3">Employer2 WorkDuration</div>
+                     <div class="col-8 mb-3">
+                      <input type="text" class="form-control form-control-user" id="emp2workduration" name="emp2workduration" aria-describedby="emailHelp" value="">
+                    </div></div>
+                    <div class="row">
+                <div class="col-4 mb-3">Employer3 Name</div>
+                   <div class="col-8 mb-3">   <input type="text" class="form-control form-control-user" id="emp3name" name="emp3name" aria-describedby="emailHelp" value=""></div>
+                    </div>  
+                    <div class="row">
+                      <div class="col-4 mb-3">Employer3 Designation </div>
+                     <div class="col-8 mb-3">  <input type="text" class="form-control form-control-user" id="emp3des" name="emp3des" aria-describedby="emailHelp" value=""></div>  
+                     </div>
+
+
+
+                    <div class="row">
+                    <div class="col-4 mb-3">Employer3 CTC </div>
+                    <div class="col-8 mb-3">
+                      <input type="text" class="form-control form-control-user" id="emp3ctc" name="emp3ctc" aria-describedby="emailHelp" value=""></div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-4 mb-3">Employer3 WorkDuration</div>
+                     <div class="col-8 mb-3">
+                      <input type="text" class="form-control form-control-user" id="emp3workduration" name="emp3workduration" aria-describedby="emailHelp" value="">
+                    </div></div>
+
+                    <div class="row" style="margin-top:4%">
+                      <div class="col-4"></div>
+                      <div class="col-4">
+                      <input type="submit" name="submit"  value="submit" class="btn btn-primary btn-user btn-block">
+                    </div>
+                    </div>
+                  
+                  </form>
+
+<?php } ?> 
+
+
+
+
+
+        </div>
+        <!-- /.container-fluid -->
+
+      </div>
+      <!-- End of Main Content -->
+
+      <!-- Footer -->
+   <?php include_once('includes/footer.php');?>
+      <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+  </div>
+  <!-- End of Page Wrapper -->
+
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+  
+
+  <!-- Bootstrap core JavaScript-->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="js/sb-admin-2.min.js"></script>
+  <script type="text/javascript">
+    $(".jDate").datepicker({
+    format: 'yyyy-mm-dd',
+    autoclose: true
+}).datepicker("update", "10/10/2016"); 
+  </script>
+<script src="vendor/datatables/jquery.dataTables.min.js"></script>
+  <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+  <!-- Page level custom scripts -->
+  <script src="js/demo/datatables-demo.js"></script>
+</body>
+
+</html>
+<?php }  ?>
+
+<?php
+session_start();
+error_reporting(0);
+include('includes/dbconnection.php');
+//error_reporting(0);
+if (strlen($_SESSION['uid']==0)) {
+  header('location:logout.php');
+  } else{
+
+
+if(isset($_POST['submit']))
+  {
+   
+    $eid=$_SESSION['uid'];
+    $FName=$_POST['FirstName'];
+    $LName=$_POST['LastName'];
+    $empcode=$_POST['EmpCode'];
+    $EmpDept=$_POST['EmpDept'];
+    $EmpDesignation=$_POST['EmpDesignation'];
+    $EmpContactNo=$_POST['EmpContactNo'];
+    $gender=$_POST['gender'];
+    $empjdate=$_POST['EmpJoingdate'];
+     $query=mysqli_query($con, "update employeedetail set EmpFname='$FName',  EmpLName='$LName', EmpCode='$empcode', EmpDept='$EmpDept', EmpDesignation='$EmpDesignation', EmpContactNo='$EmpContactNo', EmpGender='$gender',EmpJoingdate='$empjdate' where ID='$eid'");
+    if ($query) {
+    $msg="Your profile has been updated.";
+  }
+  else
+    {
+      $msg="Something Went Wrong. Please try again.";
+    }
+  }
+  ?>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>My Profile</title>
+
+  <!-- Custom fonts for this template-->
+  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+  <!-- Custom styles for this template-->
+  <link href="css/sb-admin-2.min.css" rel="stylesheet">
+
+</head>
+
+<body id="page-top">
+
+  <!-- Page Wrapper -->
+  <div id="wrapper">
+
+    <!-- Sidebar -->
+  <?php include_once('includes/sidebar.php')?>
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+      <!-- Main Content -->
+      <div id="content">
+
+        <!-- Topbar -->
+         <?php include_once('includes/header.php')?>
+        <!-- End of Topbar -->
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+          <!-- Page Heading -->
+          <h1 class="h3 mb-4 text-gray-800">My Profile</h1>
+
+<p style="font-size:16px; color:red" align="center"> <?php if($msg){
+    echo $msg;
+  }  ?> </p>
+
+<form class="user" method="post" action="">
+  <?php
+$eid=$_SESSION['uid'];
+$ret=mysqli_query($con,"select * from employeedetail where ID='$eid'");
+$cnt=1;
+while ($row=mysqli_fetch_array($ret)) {
+
+?>
+               <div class="row">
+                <div class="col-4 mb-3">First Name</div>
+                   <div class="col-8 mb-3">   <input type="text" class="form-control form-control-user" id="FirstName" name="FirstName" aria-describedby="emailHelp" required="true" value="<?php  echo $row['EmpFname'];?>"></div>
+                    </div>  
+                    <div class="row">
+                      <div class="col-4 mb-3">Last Name </div>
+                     <div class="col-8 mb-3">  <input type="text" class="form-control form-control-user" id="LastName" name="LastName" aria-describedby="emailHelp" required="true" value="<?php  echo $row['EmpLName'];?>"></div>  
+                     </div>
+
+
+
+                    <div class="row">
+                    <div class="col-4 mb-3">Employee Code </div>
+                    <div class="col-8 mb-3">
+                      <input type="text" class="form-control form-control-user" id="EmpCode" name="EmpCode" aria-describedby="emailHelp" required="true" value="<?php  echo $row['EmpCode'];?>"></div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-4 mb-3">Employee Dept</div>
+                     <div class="col-8 mb-3">
+                      <input type="text" class="form-control form-control-user" id="EmpDept" name="EmpDept" aria-describedby="emailHelp" required="true" value="<?php  echo $row['EmpDept'];?>">
+                    </div></div>
+                    <div class="row">
+                    <div class="col-4 mb-3">Employee Desigantion</div>
+
+                    <div class="col-8 mb-3">
+                      <input type="text" class="form-control form-control-user" id="EmpDesignation" name="EmpDesignation" aria-describedby="emailHelp" required="true" value="<?php  echo $row['EmpDesignation'];?>">
+                    </div></div>
+                    <div class="row">
+                      <div class="col-4 mb-3">Employee Contact No.</div>
+                    <div class="col-8 mb-3">
+                      <input type="text" class="form-control form-control-user" id="EmpContactNo" name="EmpContactNo" aria-describedby="emailHelp" required="true" value="<?php  echo $row['EmpContactNo'];?>">
+                    </div></div>
+                    <div class="row">
+                    <div class="col-4 mb-3">Email</div>
+                   <div class="col-8 mb-3">
+                      <input type="email" class="form-control form-control-user" id="Email" name="Email" aria-describedby="emailHelp" placeholder="Enter Email Address..." required="true" value="<?php  echo $row['EmpEmail'];?>" readonly="true">
+                    </div></div>
+                
+                    <div class="row">
+                      <div class="col-4 mb-3">Employee Joing Date(yyyy-mm-dd)</div>
+                    <div class="col-8  mb-3">
+                      <input type="text" class="form-control form-control-user" value="<?php  echo $row['EmpJoingdate'];?>" id="jDate" name="EmpJoingdate" aria-describedby="emailHelp">
+                    </div></div>
+                    <div class="row">
+                      <div class="col-4 mb-3">Gender</div>
+                    <div class="col-4 mb-3">
+                    
+<?php if($row['EmpGender']=="Male")
+{?>
+                      <input type="radio" id="gender" name="gender" value="Male" checked="true">Male
+
+                     <input type="radio" name="gender" value="Female">Female
+                   <?php }   else if($row['EmpGender']=="Female") {?>
+ <input type="radio" id="gender" name="gender" value="Male" >Male
+  <input type="radio" name="gender" value="Female" checked="true">Female
+                   <?php } else { ?>
+ <input type="radio" id="gender" name="gender" value="Male" >Male
+  <input type="radio" name="gender" value="Female">Female
+                   <?php } ?>
+                    </div></div>
+<?php } ?>
+                    <div class="row" style="margin-top:4%">
+                      <div class="col-4"></div>
+                      <div class="col-4">
+                      <input type="submit" name="submit"  value="Update" class="btn btn-primary btn-user btn-block">
+                    </div>
+                    </div>
+                  
+                  </form>
+
+
+
+
+
+        </div>
+        <!-- /.container-fluid -->
+
+      </div>
+      <!-- End of Main Content -->
+
+      <!-- Footer -->
+   <?php include_once('includes/footer.php');?>
+      <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+  </div>
+  <!-- End of Page Wrapper -->
+
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+  
+
+  <!-- Bootstrap core JavaScript-->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="js/sb-admin-2.min.js"></script>
+  <script type="text/javascript">
+    $(".jDate").datepicker({
+    format: 'yyyy-mm-dd',
+    autoclose: true
+}).datepicker("update", "10/10/2016"); 
+  </script>
+
+</body>
+
+</html>
+<?php }  ?>
+
+<?php
+include('includes/dbconnection.php');
+error_reporting(0);
+if(isset($_POST['submit']))
+  {
+    $FName=$_POST['FirstName'];
+    $LName=$_POST['LastName'];
+    $empcode=$_POST['empcode'];
+    $Email=$_POST['Email'];
+    $Password=$_POST['Password'];
+    //$RPassword=$_POST['RepeatPassword'];
+    $ret=mysqli_query($con, "select EmpEmail from employeedetail where EmpEmail='$Email'");
+    $result=mysqli_fetch_array($ret);
+    if($result>0){
+$msg="This email already associated with another account";
+    }
+    else{
+    $query=mysqli_query($con, "insert into employeedetail(EmpFname, EmpLName, EmpCode, EmpEmail,  EmpPassword) value('$FName', '$LName', '$empcode', '$Email', '$Password' )");
+    if ($query) {
+    $msg="You have successfully registered";
+  }
+  else
+    {
+      $msg="Something Went Wrong. Please try again";
+    }
+
+  }
+}
+  ?>
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Employee Record Managment System</title>
+
+  <!-- Custom fonts for this template-->
+  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+  <!-- Custom styles for this template-->
+  <link href="css/sb-admin-2.min.css" rel="stylesheet">
+<script type="text/javascript">
+function checkpass()
+{
+if(document.register.Password.value!=document.register.RepeatPassword.value)
+{
+alert('New Password and Confirm Password field does not match');
+document.register.RepeatPassword();
+return false;
+}
+return true;
+} 
+
+</script>
+</head>
+
+<body class="bg-gradient-primary">
+ 
+
+  <div class="container">
+    <h3 align="center" style="color: black; padding-top: 1%">Employee Record Managment System</h3>
+
+    <div class="card o-hidden border-0 shadow-lg my-5">
+      <div class="card-body p-0">
+        <!-- Nested Row within Card Body -->
+        <div class="row">
+          <div class="col-lg-5 d-none d-lg-block bg-register-image"></div>
+          <div class="col-lg-7">
+            <div class="p-5">
+              <div class="text-center">
+                <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
+              </div>
+              <p style="font-size:16px; color:red" align="center"> <?php if($msg){
+    echo $msg;
+  }  ?> </p>
+              <form class="user" name="register" method="post" onsubmit="return checkpass();">
+                <div class="form-group row">
+                  <div class="col-sm-6 mb-3 mb-sm-0">
+                    <input type="text" class="form-control form-control-user" id="FirstName" name="FirstName" placeholder="First Name" pattern="[A-Za-z]+" required="true">
+                  </div>
+                  <div class="col-sm-6">
+                    <input type="text" class="form-control form-control-user" id="LastName" name="LastName" placeholder="Last Name" pattern="[A-Za-z]+" required="true">
+                  </div>
+                </div>
+                 <div class="form-group">
+                  <input type="text" class="form-control form-control-user" id="empcode" name="empcode" placeholder="Enter your Employee Code" pattern="[0-9]+" required="true">
+                </div>
+                <div class="form-group">
+                  <input type="email" class="form-control form-control-user" id="Email" name="Email" placeholder="Email Address" required="true">
+                </div>
+                <div class="form-group row">
+                  <div class="col-sm-6 mb-3 mb-sm-0">
+                    <input type="password" class="form-control form-control-user" id="Password" name="Password" placeholder="Password" required="true">
+                  </div>
+                  <div class="col-sm-6">
+                    <input type="password" class="form-control form-control-user" id="RepeatPassword" name="RepeatPassword" placeholder="Repeat Password" required="true">
+                  </div>
+                 
+                </div>
+
+
+              <input type="submit" name="submit" value="Register Account" class="btn btn-primary btn-user btn-block">
+                
+                
+                </form>
+                <hr>
+             
+              <div class="text-center">
+                <a class="small" href="loginerms.php">Already have an account? Login!</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Bootstrap core JavaScript-->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="js/sb-admin-2.min.js"></script>
+
+</body>
+
+</html>
+
+<?php
+session_start();
+error_reporting(0);
+include('includes/dbconnection.php');
+if(strlen($_SESSION['empid']==0))
+{
+header('location:forgetpassword.php');
+} else {
+if(isset($_POST['submit']))
+  {
+    $email=$_SESSION['email'];
+    $empid=$_SESSION['empid'];
+    $password=$_POST['newpassword'];
+    $query=mysqli_query($con,"update employeedetail set EmpPassword='$password'  where  EmpEmail='$email' && EmpCode='$empid' ");
+   if($query)
+   {
+echo "<script>alert('Password successfully changed');</script>";
+session_destroy();
+   }
+  
+  }
+  ?>
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="Employee Record management System in php and mysql">
+  <meta name="description" content="Employee Record management System in php and mysql">
+  <meta name="author" content="Sarita Pandey">
+
+  <title>ERMS Employee Reset</title>
+
+  <!-- Custom fonts for this template-->
+  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+  <!-- Custom styles for this template-->
+  <link href="css/sb-admin-2.min.css" rel="stylesheet">
+  <script type="text/javascript">
+function checkpass()
+{
+if(document.changepassword.newpassword.value!=document.changepassword.confirmpassword.value)
+{
+alert('New Password and Confirm Password field does not match');
+document.changepassword.confirmpassword();
+return false;
+}
+return true;
+} 
+
+</script>
+
+</head>
+
+<body class="bg-gradient-primary">
+
+  <div class="container">
+    <h3 align="center" style="color: black; padding-top: 2%">Employee Record Managment System</h3>
+
+    <!-- Outer Row -->
+    <div class="row justify-content-center">
+
+      <div class="col-xl-10 col-lg-12 col-md-9">
+
+        <div class="card o-hidden border-0 shadow-lg my-5">
+          <div class="card-body p-0">
+            <!-- Nested Row within Card Body -->
+            <div class="row">
+              <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
+              <div class="col-lg-6">
+                <div class="p-5">
+                  <div class="text-center">
+                    <h1 class="h4 text-gray-900 mb-4">Reset Password</h1>
+                  </div>
+                  <p style="font-size:16px; color:red" align="center"> <?php if($msg){
+    echo $msg;
+  }  ?> </p>
+                  <form class="user" name="changepassword" method="post" onsubmit="return checkpass();">
+                                           
+                    
+                    <div class="form-group">
+                      <input type="Password" class="form-control form-control-user" id="newpassword" name="newpassword" value="" required="true" placeholder="Enter Your New Password" required="true" >
+                    </div>
+
+                     <div class="form-group">
+                      <input type="Password" class="form-control form-control-user" id="confirmpassword" name="confirmpassword" value="" required="true" placeholder="Confirm Your Password" required="true">
+                    </div>
+                  
+                    <p> <input type="submit" class="btn btn-primary btn-user btn-block" name="submit" value="Reset"></p>
+
+                    <hr>
+                  
+                  </form>
+                  <hr>
+               <div class="text-center">
+                    <a class="small" href="loginerms.php">Already have an account? Login!</a>
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Bootstrap core JavaScript-->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="js/sb-admin-2.min.js"></script>
+
+</body>
+
+</html>
+<?php } ?>
+<?php
+session_start();
+include('includes/dbconnection.php');
+if(strlen($_SESSION['uid']==0)){
+	header('location:logout.php');
+}
+else {
+?>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Welcome to ERMS</title>
+
+  <!-- Custom fonts for this template-->
+  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+  <!-- Custom styles for this template-->
+  <link href="css/sb-admin-2.min.css" rel="stylesheet">
+
+</head>
+
+<body id="page-top">
+
+  <!-- Page Wrapper -->
+  <div id="wrapper">
+
+    <!-- Sidebar -->
+    <?php include_once('includes/sidebar.php');?>
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+      <!-- Main Content -->
+      <div id="content">
+
+        <!-- Topbar -->
+       <?php include_once('includes/header.php');?>
+        <!-- End of Topbar -->
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+          <!-- Page Heading -->
+          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Employee Record Management System</h1>
+                   </div>
+
+          <!-- Content Row -->
+          <div class="row">
+<div class="col-xl-3 col-md-6 mb-4"></div>
+            <!-- Earnings (Monthly) Card Example -->
+            <div class="col-xl-6 col-md-6 mb-4">
+              <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Welcome Back to ERMS !</div>
+
+                      <?php
+$empid=$_SESSION['uid'];
+$ret=mysqli_query($con,"select EmpFname,EmpLname from employeedetail where ID='$empid'");
+$row=mysqli_fetch_array($ret);
+$fname=$row['EmpFname'];
+$lname=$row['EmpLname'];
+?>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $fname." ".$lname; ?></div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-user fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+        
+
+         
+          </div>
+
+          <!-- Content Row -->
+
+        </div>
+          
+
+         
+          </div>
+
+        </div>
+        <!-- /.container-fluid -->
+
+      </div>
+      <!-- End of Main Content -->
+
+      <!-- Footer -->
+       <?php include_once('includes/footer.php');?>
+      <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+  </div>
+  <!-- End of Page Wrapper -->
+
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+  
+  <!-- Bootstrap core JavaScript-->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="js/sb-admin-2.min.js"></script>
+
+  <!-- Page level plugins -->
+  <script src="vendor/chart.js/Chart.min.js"></script>
+
+  <!-- Page level custom scripts -->
+  <script src="js/demo/chart-area-demo.js"></script>
+  <script src="js/demo/chart-pie-demo.js"></script>
+
+</body>
+
+</html>
+
+</html>
+<?php
+}
+?>
+<?php
+session_start();
+error_reporting(0);
+include('includes/dbconnection.php');
+//error_reporting(0);
+if (strlen($_SESSION['uid']==0)) {
+  header('location:logout.php');
+  } else{
+if(isset($_POST['submit']))
+{
+$empid=$_SESSION['uid'];
+$cpassword=$_POST['currentpassword'];
+$newpassword=$_POST['newpassword'];
+$query=mysqli_query($con,"select ID from employeedetail where ID='$empid' and 	EmpPassword='$cpassword'");
+$row=mysqli_fetch_array($query);
+if($row>0){
+$ret=mysqli_query($con,"update employeedetail set EmpPassword='$newpassword' where ID='$empid'");
+$msg= "Your password successully changed"; 
+} else {
+
+$msg="Your current password is wrong";
+}
+
+
+
+}
+
+  
+  ?>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Change Password</title>
+
+  <!-- Custom fonts for this template-->
+  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+  <!-- Custom styles for this template-->
+  <link href="css/sb-admin-2.min.css" rel="stylesheet">
+<script type="text/javascript">
+function checkpass()
+{
+if(document.changepassword.newpassword.value!=document.changepassword.confirmpassword.value)
+{
+alert('New Password and Confirm Password field does not match');
+document.changepassword.confirmpassword();
+return false;
+}
+return true;
+}	
+
+</script>
+</head>
+
+<body id="page-top">
+
+  <!-- Page Wrapper -->
+  <div id="wrapper">
+
+    <!-- Sidebar -->
+  <?php include_once('includes/sidebar.php')?>
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+      <!-- Main Content -->
+      <div id="content">
+
+        <!-- Topbar -->
+         <?php include_once('includes/header.php')?>
+        <!-- End of Topbar -->
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+          <!-- Page Heading -->
+          <h1 class="h3 mb-4 text-gray-800">Change Password</h1>
+
+<p style="font-size:16px; color:red" align="center"> <?php if($msg){
+    echo $msg;
+  }  ?> </p>
+
+<form name="changepassword" class="user" method="post" onsubmit="return checkpass();">
+  <?php
+$cid=$_SESSION['uid'];
+$ret=mysqli_query($con,"select * from employeedetail where ID='$cid'");
+$cnt=1;
+while ($row=mysqli_fetch_array($ret)) {
+
+?>
+               <div class="row">
+                <div class="col-4 mb-3">Current Password</div>
+                   <div class="col-8 mb-3">   <input type="Password" class="form-control form-control-user" id="Password" name="currentpassword"  value="" required="true"></div>
+                    </div>  
+                    <div class="row">
+                      <div class="col-4 mb-3">New Password </div>
+                     <div class="col-8 mb-3">  <input type="Password" class="form-control form-control-user" id="newpassword" name="newpassword"  value="" required="true"></div>  
+                     </div>
+
+
+
+                    <div class="row">
+                    <div class="col-4 mb-3">Confirm Password </div>
+                    <div class="col-8 mb-3">
+                      <input type="Password" class="form-control form-control-user" id="confirmpassword" name="confirmpassword"  value="" required="true"></div>
+                    </div>
+
+                    
+<?php } ?>
+                    <div class="row" style="margin-top:4%">
+                      <div class="col-4"></div>
+                      <div class="col-4">
+                      <input type="submit" name="submit"  value="Change" class="btn btn-primary btn-user btn-block">
+                    </div>
+                    </div>
+                  
+                  </form>
+
+
+
+
+
+        </div>
+        <!-- /.container-fluid -->
+
+      </div>
+      <!-- End of Main Content -->
+
+      <!-- Footer -->
+   <?php include_once('includes/footer.php');?>
+      <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+  </div>
+  <!-- End of Page Wrapper -->
+
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+  
+
+  <!-- Bootstrap core JavaScript-->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="js/sb-admin-2.min.js"></script>
+  <script type="text/javascript">
+    $(".jDate").datepicker({
+    format: 'yyyy-mm-dd',
+    autoclose: true
+}).datepicker("update", "10/10/2016"); 
+  </script>
+
+</body>
+
+</html>
+<?php }  ?>
+
+<?php
+session_start();
+error_reporting(0);
+include('includes/dbconnection.php');
+//error_reporting(0);
+if (strlen($_SESSION['uid']==0)) {
+  header('location:logout.php');
+  } else{
+
+
+if(isset($_POST['submit']))
+  {
+    $eid=$_SESSION['uid'];
+      $coursepg=$_POST['coursepg'];
+    $schoolclgpg=$_POST['schoolclgpg'];
+    $yoppg=$_POST['yoppg'];
+    $pipg=$_POST['pipg'];
+    $coursegra=$_POST['coursegra'];
+    $schoolclggra=$_POST['schoolclggra'];
+    $yopgra=$_POST['yopgra'];
+    $pigra=$_POST['pigra'];
+    $coursessc=$_POST['coursessc'];
+    $schoolclgssc=$_POST['schoolclgssc'];
+    $yopssc=$_POST['yopssc'];
+    $pissc=$_POST['pissc'];
+    $coursehsc=$_POST['coursehsc'];
+    $schoolclghsc=$_POST['schoolclghsc'];
+    $yophsc=$_POST['yophsc'];
+    $pihsc=$_POST['pihsc'];
+    
+     $query=mysqli_query($con, "update empeducation set CoursePG='$coursepg', SchoolCollegePG='$schoolclgpg', YearPassingPG='$yoppg',  PercentagePG= '$pipg', CourseGra='$coursegra',  SchoolCollegeGra='$schoolclggra', YearPassingGra= '$yopgra', PercentageGra='$pigra', CourseSSC='$coursessc', SchoolCollegeSSC='$schoolclgssc', YearPassingSSC= '$yopssc', PercentageSSC= '$pissc', CourseHSC='$coursehsc', SchoolCollegeHSC='$schoolclghsc', YearPassingHSC='$yophsc', PercentageHSC='$pihsc' where EmpID='$eid'");
+    if ($query) {
+    $msg="Your Education data has been updated succeesfully.";
+  }
+  else
+    {
+      $msg="Something Went Wrong. Please try again.";
+    }
+  }
+  ?>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Edit My Education</title>
+
+  <!-- Custom fonts for this template-->
+  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+  <!-- Custom styles for this template-->
+  <link href="css/sb-admin-2.min.css" rel="stylesheet">
+
+</head>
+
+<body id="page-top">
+
+  <!-- Page Wrapper -->
+  <div id="wrapper">
+
+    <!-- Sidebar -->
+  <?php include_once('includes/sidebar.php')?>
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+      <!-- Main Content -->
+      <div id="content">
+
+        <!-- Topbar -->
+         <?php include_once('includes/header.php')?>
+        <!-- End of Topbar -->
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+          <!-- Page Heading -->
+          <h1 class="h3 mb-4 text-gray-800">Edit My Education</h1>
+
+<p style="font-size:16px; color:red" align="center"> <?php if($msg){
+    echo $msg;
+  }  ?> </p>
+
+<form class="user" method="post" action="">
+   <?php
+ $cid=$_SESSION['uid'];
+$ret=mysqli_query($con,"select * from empeducation where EmpID='$cid'");
+$num=mysqli_num_rows($ret);
+if($num>0){
+$cnt=1;
+while ($row=mysqli_fetch_array($ret)) {
+
+?>
+ 
+               <div class="row">
+                <div class="col-4 mb-3">Course Post Graduation</div>
+                   <div class="col-8 mb-3">   <input type="text" class="form-control form-control-user" id="coursepg" name="coursepg" aria-describedby="emailHelp" value="<?php  echo $row['CoursePG'];?>"></div>
+                    </div>  
+                    <div class="row">
+                      <div class="col-4 mb-3">School/College Post Graduation </div>
+                     <div class="col-8 mb-3">  <input type="text" class="form-control form-control-user" id="schoolclgpg" name="schoolclgpg" aria-describedby="emailHelp" value="<?php  echo $row['SchoolCollegePG'];?>"></div>  
+                     </div>
+
+
+
+                    <div class="row">
+                    <div class="col-4 mb-3">Year of Passing Post Graduation </div>
+                    <div class="col-8 mb-3">
+                      <input type="text" class="form-control form-control-user" id="yoppg" name="yoppg" aria-describedby="emailHelp" value="<?php  echo $row['YearPassingPG'];?>"></div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-4 mb-3">Percentage in PG</div>
+                     <div class="col-8 mb-3">
+                      <input type="text" class="form-control form-control-user" id="pipg" name="pipg" aria-describedby="emailHelp" value="<?php  echo $row['PercentagePG'];?>">
+                    </div></div>
+                    <div class="row">
+                <div class="col-4 mb-3">Course Graduation</div>
+                   <div class="col-8 mb-3">   <input type="text" class="form-control form-control-user" id="coursegra" name="coursegra" aria-describedby="emailHelp" required="true" value="<?php  echo $row['CourseGra'];?>"></div>
+                    </div>  
+                    <div class="row">
+                      <div class="col-4 mb-3">School/College Graduation </div>
+                     <div class="col-8 mb-3">  <input type="text" class="form-control form-control-user" id="schoolclggra" name="schoolclggra" aria-describedby="emailHelp" required="true" value="<?php  echo $row['SchoolCollegeGra'];?>"></div>  
+                     </div>
+
+
+
+                    <div class="row">
+                    <div class="col-4 mb-3">Year of Passing Graduation </div>
+                    <div class="col-8 mb-3">
+                      <input type="text" class="form-control form-control-user" id="yopgra" name="yopgra" aria-describedby="emailHelp" required="true" value="<?php  echo $row['YearPassingGra'];?>"></div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-4 mb-3">Percentage in Graduation</div>
+                     <div class="col-8 mb-3">
+                      <input type="text" class="form-control form-control-user" id="pigra" name="pigra" aria-describedby="emailHelp" required="true" value="<?php  echo $row['PercentageGra'];?>">
+                    </div></div>
+                    <div class="row">
+                <div class="col-4 mb-3">Course SSC</div>
+                   <div class="col-8 mb-3">   <input type="text" class="form-control form-control-user" id="coursessc" name="coursessc" aria-describedby="emailHelp" required="true" value="<?php  echo $row['CourseSSC'];?>"></div>
+                    </div>  
+                    <div class="row">
+                      <div class="col-4 mb-3">School/College SSC </div>
+                     <div class="col-8 mb-3">  <input type="text" class="form-control form-control-user" id="schoolclgssc" name="schoolclgssc" aria-describedby="emailHelp" required="true" value="<?php  echo $row['SchoolCollegeSSC'];?>"></div>  
+                     </div>
+
+
+
+                    <div class="row">
+                    <div class="col-4 mb-3">Year of Passing SSC </div>
+                    <div class="col-8 mb-3">
+                      <input type="text" class="form-control form-control-user" id="yopssc" name="yopssc" aria-describedby="emailHelp" required="true" value="<?php  echo $row['YearPassingSSC'];?>"></div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-4 mb-3">Percentage in SSC</div>
+                     <div class="col-8 mb-3">
+                      <input type="text" class="form-control form-control-user" id="pissc" name="pissc" aria-describedby="emailHelp" required="true" value="<?php  echo $row['PercentageSSC'];?>">
+                    </div></div>
+                    <div class="row">
+                <div class="col-4 mb-3">Course HSC</div>
+                   <div class="col-8 mb-3">   <input type="text" class="form-control form-control-user" id="coursehsc" name="coursehsc" aria-describedby="emailHelp" required="true" value="<?php  echo $row['CourseHSC'];?>"></div>
+                    </div>  
+                    <div class="row">
+                      <div class="col-4 mb-3">School/College HSC </div>
+                     <div class="col-8 mb-3">  <input type="text" class="form-control form-control-user" id="schoolclghsc" name="schoolclghsc" aria-describedby="emailHelp" required="true" value="<?php  echo $row['SchoolCollegeHSC'];?>"></div>  
+                     </div>
+
+
+
+                    <div class="row">
+                    <div class="col-4 mb-3">Year of Passing HSC </div>
+                    <div class="col-8 mb-3">
+                      <input type="text" class="form-control form-control-user" id="yophsc" name="yophsc" aria-describedby="emailHelp" required="true" value="<?php  echo $row['YearPassingHSC'];?>"></div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-4 mb-3">Percentage in HSC</div>
+                     <div class="col-8 mb-3">
+                      <input type="text" class="form-control form-control-user" id="pihsc" name="pihsc" aria-describedby="emailHelp" required="true" value="<?php  echo $row['PercentageHSC'];?>">
+                    </div></div>
+                    <?php } ?>
+                   
+                    <div class="row" style="margin-top:4%">
+                      <div class="col-4"></div>
+                      <div class="col-4">
+                      <input type="submit" name="submit"  value="update" class="btn btn-primary btn-user btn-block">
+                    </div>
+                    </div>
+                  
+                  </form>
+
+<?php } else {?>
+
+  <div class="row" style="margin-top:4%">
+                      <div class="col-12" style="font-size:18px; color:red;">First Add your education details after that you can edit education details.</div>
+                   
+                    </div>
+<?php } ?>
+
+        </div>
+        <!-- /.container-fluid -->
+
+      </div>
+      <!-- End of Main Content -->
+
+      <!-- Footer -->
+   <?php include_once('includes/footer.php');?>
+      <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+  </div>
+  <!-- End of Page Wrapper -->
+
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+  
+
+  <!-- Bootstrap core JavaScript-->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="js/sb-admin-2.min.js"></script>
+  <script type="text/javascript">
+    $(".jDate").datepicker({
+    format: 'yyyy-mm-dd',
+    autoclose: true
+}).datepicker("update", "10/10/2016"); 
+  </script>
+
+</body>
+
+</html>
+<?php }  ?>
+
+<?php
+session_start();
+error_reporting(0);
+include('includes/dbconnection.php');
+//error_reporting(0);
+if (strlen($_SESSION['uid']==0)) {
+  header('location:logout.php');
+  } else{
+
+
+if(isset($_POST['submit']))
+  {
+    $eid=$_SESSION['uid'];
+    $emp1name=$_POST['emp1name'];
+    $emp1des=$_POST['emp1des'];
+    $emp1ctc=$_POST['emp1ctc'];
+    $emp1wd=$_POST['emp1workduration'];
+    $emp2name=$_POST['emp2name'];
+    $emp2des=$_POST['emp2des'];
+    $emp2ctc=$_POST['emp2ctc'];
+    $emp2wd=$_POST['emp2workduration'];
+    $emp3name=$_POST['emp3name'];
+    $emp3des=$_POST['emp3des'];
+    $emp3ctc=$_POST['emp3ctc'];
+    $emp3wd=$_POST['emp3workduration'];
+    
+     $query=mysqli_query($con, "update empexpireince set Employer1Name='$emp1name',  Employer1Designation ='$emp1des', Employer1CTC ='$emp1ctc', Employer1WorkDuration='$emp1wd', Employer2Name='$emp2name',  Employer2Designation ='$emp2des', Employer2CTC ='$emp2ctc', Employer2WorkDuration='$emp2wd', Employer3Name='$emp3name',  Employer3Designation ='$emp3des', Employer3CTC ='$emp3ctc', Employer3WorkDuration='$emp3wd'  where EmpID='$eid'");
+    if ($query) {
+    $msg="Your Expirence has been updated.";
+  }
+  else
+    {
+      $msg="Something Went Wrong. Please try again.";
+    }
+  }
+  ?>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Edit My Expirence</title>
+
+  <!-- Custom fonts for this template-->
+  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+  <!-- Custom styles for this template-->
+  <link href="css/sb-admin-2.min.css" rel="stylesheet">
+
+</head>
+
+<body id="page-top">
+
+  <!-- Page Wrapper -->
+  <div id="wrapper">
+
+    <!-- Sidebar -->
+  <?php include_once('includes/sidebar.php')?>
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+      <!-- Main Content -->
+      <div id="content">
+
+        <!-- Topbar -->
+         <?php include_once('includes/header.php')?>
+        <!-- End of Topbar -->
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+          <!-- Page Heading -->
+          <h1 class="h3 mb-4 text-gray-800">Edit My Experience</h1>
+
+<p style="font-size:16px; color:red" align="center"> <?php if($msg){
+    echo $msg;
+  }  ?> </p>
+
+<form class="user" method="post" action="">
+  <?php
+ $empid=$_SESSION['uid'];
+$ret=mysqli_query($con,"select * from empexpireince where EmpID='$empid'");
+$num=mysqli_num_rows($ret);
+if($num>0){
+$cnt=1;
+while ($row=mysqli_fetch_array($ret)) {
+
+?>
+               <div class="row">
+                <div class="col-4 mb-3">Employer1 Name</div>
+                   <div class="col-8 mb-3">   <input type="text" class="form-control form-control-user" id="emp1name" name="emp1name" aria-describedby="emailHelp" value="<?php  echo $row['Employer1Name'];?>"></div>
+                    </div>  
+                    <div class="row">
+                      <div class="col-4 mb-3">Employer1 Designation </div>
+                     <div class="col-8 mb-3">  <input type="text" class="form-control form-control-user" id="emp1des" name="emp1des" aria-describedby="emailHelp" value="<?php  echo $row['Employer1Designation'];?>"></div>  
+                     </div>
+
+
+
+                    <div class="row">
+                    <div class="col-4 mb-3">Employer1 CTC </div>
+                    <div class="col-8 mb-3">
+                      <input type="text" class="form-control form-control-user" id="emp1ctc" name="emp1ctc" aria-describedby="emailHelp" value="<?php  echo $row['Employer1CTC'];?>"></div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-4 mb-3">Employer1 WorkDuration</div>
+                     <div class="col-8 mb-3">
+                      <input type="text" class="form-control form-control-user" id="emp1workduration" name="emp1workduration" aria-describedby="emailHelp" value="<?php  echo $row['Employer1WorkDuration'];?>">
+                    </div></div>
+                    <div class="row">
+                <div class="col-4 mb-3">Employer2 Name</div>
+                   <div class="col-8 mb-3">   <input type="text" class="form-control form-control-user" id="emp2name" name="emp2name" aria-describedby="emailHelp" value="<?php  echo $row['Employer2Name'];?>"></div>
+                    </div>  
+                    <div class="row">
+                      <div class="col-4 mb-3">Employer2 Designation </div>
+                     <div class="col-8 mb-3">  <input type="text" class="form-control form-control-user" id="emp2des" name="emp2des" aria-describedby="emailHelp" value="<?php  echo $row['Employer2Designation'];?>"></div>  
+                     </div>
+
+
+
+                    <div class="row">
+                    <div class="col-4 mb-3">Employer2 CTC </div>
+                    <div class="col-8 mb-3">
+                      <input type="text" class="form-control form-control-user" id="emp2ctc" name="emp2ctc" aria-describedby="emailHelp" value="<?php  echo $row['Employer2CTC'];?>"></div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-4 mb-3">Employer2 WorkDuration</div>
+                     <div class="col-8 mb-3">
+                      <input type="text" class="form-control form-control-user" id="emp2workduration" name="emp2workduration" aria-describedby="emailHelp" value="<?php  echo $row['Employer2WorkDuration'];?>">
+                    </div></div>
+                    <div class="row">
+                <div class="col-4 mb-3">Employer3 Name</div>
+                   <div class="col-8 mb-3">   <input type="text" class="form-control form-control-user" id="emp3name" name="emp3name" aria-describedby="emailHelp" value="<?php  echo $row['Employer3Name'];?>"></div>
+                    </div>  
+                    <div class="row">
+                      <div class="col-4 mb-3">Employer3 Designation </div>
+                     <div class="col-8 mb-3">  <input type="text" class="form-control form-control-user" id="emp3des" name="emp3des" aria-describedby="emailHelp" value="<?php  echo $row['Employer3Designation'];?>"></div>  
+                     </div>
+
+
+
+                    <div class="row">
+                    <div class="col-4 mb-3">Employer3 CTC </div>
+                    <div class="col-8 mb-3">
+                      <input type="text" class="form-control form-control-user" id="emp3ctc" name="emp3ctc" aria-describedby="emailHelp" value="<?php  echo $row['Employer3CTC'];?>"></div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-4 mb-3">Employer3 WorkDuration</div>
+                     <div class="col-8 mb-3">
+                      <input type="text" class="form-control form-control-user" id="emp3workduration" name="emp3workduration" aria-describedby="emailHelp" value="<?php  echo $row['Employer3WorkDuration'];?>">
+                    </div></div>
+<?php } ?>
+                    <div class="row" style="margin-top:4%">
+                      <div class="col-4"></div>
+                      <div class="col-4">
+                      <input type="submit" name="submit"  value="Update" class="btn btn-primary btn-user btn-block">
+                    </div>
+                    </div>
+                  
+                  </form>
+
+
+<?php } else {?>
+
+  <div class="row" style="margin-top:4%">
+                      <div class="col-12" style="font-size:18px; color:red;">First Add your experience details after that you can edit experience details.</div>
+                   
+                    </div>
+<?php } ?>
+
+
+        </div>
+        <!-- /.container-fluid -->
+
+      </div>
+      <!-- End of Main Content -->
+
+      <!-- Footer -->
+   <?php include_once('includes/footer.php');?>
+      <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+  </div>
+  <!-- End of Page Wrapper -->
+
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+  
+
+  <!-- Bootstrap core JavaScript-->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="js/sb-admin-2.min.js"></script>
+  <script type="text/javascript">
+    $(".jDate").datepicker({
+    format: 'yyyy-mm-dd',
+    autoclose: true
+}).datepicker("update", "10/10/2016"); 
+  </script>
+
+</body>
+
+</html>
+<?php }  ?>
+
+<?php
+session_start();
+error_reporting(0);
+include('includes/dbconnection.php');
+
+if(isset($_POST['submit']))
+  {
+    $empid=$_POST['empid'];
+    $Email=$_POST['Email'];
+
+        $query=mysqli_query($con,"select ID from employeedetail where  EmpEmail='$Email' and EmpCode='$empid' ");
+    $ret=mysqli_fetch_array($query);
+    if($ret>0){
+      $_SESSION['empid']=$empid;
+      $_SESSION['email']=$Email;
+     header('location:resetpassword.php');
+    }
+    else{
+      $msg="Invalid Details. Please try again.";
+    }
+  }
+  ?>
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="Employee Record management System in php and mysql">
+  <meta name="description" content="Employee Record management System in php and mysql">
+  <meta name="author" content="Sarita Pandey">
+
+  <title>ERMS | Forgot Password</title>
+
+  <!-- Custom fonts for this template-->
+  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+  <!-- Custom styles for this template-->
+  <link href="css/sb-admin-2.min.css" rel="stylesheet">
+
+</head>
+
+<body class="bg-gradient-primary">
+
+  <div class="container">
+    <h3 align="center" style="color: black; padding-top: 2%">Employee Record Managment System</h3>
+
+
+    <!-- Outer Row -->
+    <div class="row justify-content-center">
+
+      <div class="col-xl-10 col-lg-12 col-md-9">
+
+        <div class="card o-hidden border-0 shadow-lg my-5">
+          <div class="card-body p-0">
+            <!-- Nested Row within Card Body -->
+            <div class="row">
+              <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
+              <div class="col-lg-6">
+                <div class="p-5">
+                  <div class="text-center">
+                    <h1 class="h4 text-gray-900 mb-4">Recover your password!</h1>
+                  </div>
+          <p style="font-size:16px; color:red"> <?php if($msg){
+    echo $msg;
+  }  ?> </p>
+                  <form class="user" method="post" action="">
+                    <div class="form-group">
+                      <input type="email" class="form-control form-control-user" id="Email" name="Email" aria-describedby="emailHelp" placeholder="Enter Email Address..." required="true">
+                    </div>
+                    <div class="form-group">
+                      <input type="text" class="form-control form-control-user" id="empid" name="empid" placeholder="Enter your employee Code" required="true">
+                    </div>
+                    
+                  
+                    <p> <input type="submit" class="btn btn-primary btn-user btn-block" name="submit" value="reset"></p>
+
+                    <hr>
+                  
+                  </form>
+                
+   
+                  <div class="text-center">
+                    <a class="small" href="loginerms.php">Already have an account? Login!</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Bootstrap core JavaScript-->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="js/sb-admin-2.min.js"></script>
+
+</body>
+
+</html>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>ERMS | Home Page</title>
+
+  <!-- Custom fonts for this template-->
+  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+  <!-- Custom styles for this template-->
+  <link href="css/sb-admin-2.min.css" rel="stylesheet">
+
+</head>
+
+<body id="page-top">
+
+  <!-- Page Wrapper -->
+  <div id="wrapper" >
+
+  
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+      <!-- Main Content -->
+      <div id="content">
+
+       
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+          <!-- Page Heading -->
+          <div class="d-sm-flex align-items-center justify-content-between mb-4" style="margin-top: 2%">
+            <h1 class="h3 mb-0 text-gray-800">Employee Record Management System</h1>
+          </div>
+
+          <div class="row">
+
+            <!-- Earnings (Monthly) Card Example -->
+          
+            <div class="col-xl-4 col-md-6 mb-4">
+              <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">  <a href="loginerms.php">
+                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">User Signin</div>
+                      </a>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-user fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <!-- Earnings (Monthly) Card Example -->
+            <div class="col-xl-4 col-md-6 mb-4">
+              <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <a href="registererms.php">
+                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1">User Signup</div>
+                 </a>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-user fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Earnings (Monthly) Card Example -->
+            <div class="col-xl-4 col-md-6 mb-4">
+              <div class="card border-left-info shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <a href="admin/">
+                      <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Admin Login</div>
+                   </a>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-user fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Pending Requests Card Example -->
+          
+          </div>
+
+         
+
+        </div>
+        <!-- /.container-fluid -->
+
+      </div>
+      <!-- End of Main Content -->
+
+      <!-- Footer -->
+    <?php include_once('includes/footer.php');?>
+      <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+  </div>
+  <!-- End of Page Wrapper -->
+
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+  <!-- Logout Modal-->
+  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+          <a class="btn btn-primary" href="login.html">Logout</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap core JavaScript-->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="js/sb-admin-2.min.js"></script>
+
+</body>
+
+</html>
+
+<?php
+session_start();
+error_reporting(0);
+include('includes/dbconnection.php');
+
+if(isset($_POST['login']))
+  {
+    $Email=$_POST['Email'];
+    $Password=$_POST['Password'];
+    $query=mysqli_query($con,"select ID from employeedetail where  EmpEmail='$Email' && EmpPassword='$Password' ");
+    $ret=mysqli_fetch_array($query);
+    if($ret>0){
+      $_SESSION['uid']=$ret['ID'];
+     header('location:welcome.php');
+    }
+    else{
+      $msg="Invalid Details.";
+    }
+  }
+  ?>
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="Employee Record management System in php and mysql">
+  <meta name="description" content="Employee Record management System in php and mysql">
+  <meta name="author" content="Sarita Pandey">
+
+  <title>ERMS Employee Login</title>
+
+  <!-- Custom fonts for this template-->
+  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+  <!-- Custom styles for this template-->
+  <link href="css/sb-admin-2.min.css" rel="stylesheet">
+
+</head>
+
+<body class="bg-gradient-primary">
+
+  <div class="container">
+    <h3 align="center" style="color: black; padding-top: 2%">Employee Record Managment System</h3>
+
+    <!-- Outer Row -->
+    <div class="row justify-content-center">
+
+      <div class="col-xl-10 col-lg-12 col-md-9">
+
+        <div class="card o-hidden border-0 shadow-lg my-5">
+          <div class="card-body p-0">
+            
+
+            <!-- Nested Row within Card Body -->
+            <div class="row">
+              <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
+              <div class="col-lg-6">
+                <div class="p-5">
+                  <div class="text-center">
+                    <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
+                  </div>
+                  <p style="font-size:16px; color:red" align="center"> <?php if($msg){
+    echo $msg;
+  }  ?> </p>
+                  <form class="user" method="post" action="">
+                    <div class="form-group">
+                      <input type="email" class="form-control form-control-user" id="Email" name="Email" aria-describedby="emailHelp" placeholder="Enter Email Address..." required="true">
+                    </div>
+                    <div class="form-group">
+                      <input type="password" class="form-control form-control-user" id="Password" name="Password" placeholder="Password" required="true">
+                    </div>
+                    
+                  
+                    <p> <input type="submit" class="btn btn-primary btn-user btn-block" name="login" value="login"></p>
+
+                    <hr>
+                  
+                  </form>
+                  <hr>
+                  <div class="text-center">
+                    <a class="small" href="forgetpassword.php">Forgot Password?</a>
+                  </div>
+                  <div class="text-center">
+                    <a class="small" href="registererms.php">Create an Account!</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Bootstrap core JavaScript-->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="js/sb-admin-2.min.js"></script>
+
+</body>
+
+</html>
